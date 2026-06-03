@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>ПДД: Правила дорожного движения | Yo'l harakati qoidalari</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#e9ecef; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px; font-family:'Roboto',sans-serif;}
+    .banner{font-family:'Roboto',sans-serif;background:#0a1628;color:#fff;border-radius:12px;overflow:hidden;width:100%;max-width:880px;margin:0 auto;box-shadow:0 20px 35px -10px rgba(0,0,0,0.4)}
+    .header{background:linear-gradient(135deg,#0d47a1 0%,#1565c0 50%,#0d47a1 100%);padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:3px solid #e53935;flex-wrap:wrap}
+    .header-icon{background:#e53935;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .header-icon svg{width:28px;height:28px}
+    .header-title{flex:1}
+    .header-title h1{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:1px;text-transform:uppercase;line-height:1.1}
+    .header-title p{font-size:11px;color:#90caf9;margin-top:2px;letter-spacing:0.5px}
+    .badge{background:#e53935;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:1px;white-space:nowrap}
+    .lang-switch{display:flex;gap:8px;background:rgba(0,0,0,0.3);border-radius:40px;padding:4px 6px;backdrop-filter:blur(4px);margin-left:auto}
+    .lang-btn{background:transparent;border:none;color:#fff;font-weight:700;font-size:12px;padding:4px 12px;border-radius:40px;cursor:pointer;transition:all 0.2s;font-family:'Oswald',sans-serif;letter-spacing:0.5px}
+    .lang-btn.active{background:#e53935;color:white;box-shadow:0 0 5px rgba(229,57,53,0.5)}
+    .lang-btn:not(.active):hover{background:#1e3a5f}
+    .content{display:grid;grid-template-columns:1fr 1fr;gap:0}
+    .section{padding:12px 14px;border-right:1px solid #1e3a5f;border-bottom:1px solid #1e3a5f}
+    .section:last-child{border-right:none}
+    .section-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#90caf9;margin-bottom:10px;display:flex;align-items:center;gap:6px;padding-bottom:6px;border-bottom:1px solid #1e3a5f}
+    .section-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .dot-green{background:#4caf50}
+    .dot-red{background:#e53935}
+    .dot-amber{background:#ff9800}
+    .dot-blue{background:#2196f3}
+    table.data{width:100%;border-collapse:collapse;font-size:12px}
+    table.data th{color:#90caf9;font-weight:500;font-size:10px;letter-spacing:0.5px;padding:3px 6px;text-align:left;background:#0d2040}
+    table.data td{padding:4px 6px;border-bottom:1px solid #1e3a5f;vertical-align:middle;color:#e0e0e0}
+    table.data tr:last-child td{border-bottom:none}
+    table.data .speed{font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;color:#fff;background:#e53935;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+    table.data .speed-green{background:#1b5e20;color:#a5d6a7}
+    .speed-cell{text-align:right}
+    .vehicle-row{display:flex;align-items:center;gap:6px}
+    .vicon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+    .tread-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1e3a5f}
+    .tread-row:last-child{border-bottom:none}
+    .tread-cat{display:flex;align-items:center;gap:6px;font-size:12px}
+    .tread-mm{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:#ffd54f}
+    .tread-sub{font-size:10px;color:#90caf9}
+    .warn-box{background:#2c1810;border:1px solid #e53935;border-radius:6px;padding:6px 8px;font-size:10px;color:#ef9a9a;margin-top:8px;display:flex;align-items:center;gap:5px}
+    .full-width{grid-column:1 / -1}
+    .coupling-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+    .coupling-card{background:#0d2040;border-radius:8px;padding:10px;border:1px solid #1e3a5f;position:relative;overflow:hidden}
+    .coupling-card.flex-type{border-top:3px solid #ff9800}
+    .coupling-card.rigid-type{border-top:3px solid #2196f3}
+    .coupling-header{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:5px}
+    .coupling-desc{font-size:9px;color:#78909c;margin-bottom:8px}
+    .coupling-svg{width:100%;margin-bottom:6px}
+    .coupling-rules{font-size:10px;color:#b0bec5;line-height:1.5}
+    .coupling-rules li{list-style:none;padding:1px 0;display:flex;gap:4px}
+    .coupling-rules li::before{content:"•";flex-shrink:0}
+    .coupling-rules .hi{color:#fff;font-weight:500}
+    .coupling-badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;margin-top:4px;letter-spacing:0.5px}
+    .badge-amber{background:#e65100;color:#ffe0b2}
+    .badge-blue{background:#0d47a1;color:#bbdefb}
+    .reminder-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:2px}
+    .reminder-card{background:#0d2040;border-radius:8px;padding:8px;text-align:center;border:1px solid #1e3a5f}
+    .reminder-icon{font-size:22px;margin-bottom:4px}
+    .reminder-title{font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;text-transform:uppercase;letter-spacing:0.5px}
+    .reminder-text{font-size:9px;color:#90caf9;line-height:1.3}
+    .footer{background:#e53935;text-align:center;padding:8px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+    .lang-ru, .lang-uz { transition: opacity 0.2s; }
+    .lang-uz { display: none; }
+    @media (max-width: 620px) {
+      .content{grid-template-columns:1fr}
+      .section{border-right:none}
+      .reminder-grid{grid-template-columns:repeat(2,1fr)}
+      .coupling-grid{grid-template-columns:1fr}
+      .lang-switch{margin-left:auto; margin-top:5px}
+      .header{flex-wrap:wrap}
+    }
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  </style>
+</head>
+<body>
+<h2 class="sr-only">ПДД: что нужно помнить — правила дорожного движения: скорость, протектор шин, сцепка, важные требования | Yo'l harakati qoidalari: esda tutish kerak bo'lgan muhim qoidalar</h2>
+<div class="banner">
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 3L25 8v12l-11 5L3 20V8L14 3z" stroke="white" stroke-width="1.5" fill="none"/>
+        <path d="M14 8v6l4 2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="header-title">
+      <h1 class="lang-ru">ПДД — Что нужно помнить</h1>
+      <h1 class="lang-uz">YHH — Eslab qoling</h1>
+      <p class="lang-ru">Автошкола · Уверенность на дороге</p>
+      <p class="lang-uz">Avtomaktab · Yo'lda ishonch</p>
+    </div>
+    <div class="badge lang-ru">ВАЖНО ЗНАТЬ</div>
+    <div class="badge lang-uz">BILISH MUHIM</div>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="ru">РУС</button>
+      <button class="lang-btn" data-lang="uz">O'ZB</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- ПРОТЕКТОР / PROTEKTOR -->
+    <div class="section">
+      <div class="section-title"><span class="dot dot-amber"></span><span class="lang-ru">Мин. глубина протектора шин</span><span class="lang-uz">Shinalar protektorining min. chuqurligi</span></div>
+      <div class="tread-row">
+        <div class="tread-cat"><span class="vicon">🚗</span><div><div style="font-size:12px" class="lang-ru">M1 — легковые автомобили</div><div class="lang-uz">M1 — yengil avtomobillar</div><div class="tread-sub"></div></div></div>
+        <div><div class="tread-mm">1.6 мм</div></div>
+      </div>
+      <div class="tread-row">
+        <div class="tread-cat"><span class="vicon">🚌</span><div><div style="font-size:12px" class="lang-ru">M2, M3 — автобусы</div><div class="lang-uz">M2, M3 — avtobuslar</div></div></div>
+        <div><div class="tread-mm">2.0 мм</div></div>
+      </div>
+      <div class="tread-row">
+        <div class="tread-cat"><span class="vicon">🚛</span><div><div style="font-size:12px" class="lang-ru">N1, N2, N3 — грузовые</div><div class="lang-uz">N1, N2, N3 — yuk avtomobillari</div></div></div>
+        <div><div class="tread-mm">1.0 мм</div></div>
+      </div>
+      <div class="tread-row">
+        <div class="tread-cat"><span class="vicon">🏍</span><div><div style="font-size:12px" class="lang-ru">L — мотоциклы</div><div class="lang-uz">L — mototsikllar</div></div></div>
+        <div><div class="tread-mm">0.8 мм</div></div>
+      </div>
+      <div class="warn-box">⚠ <span class="lang-ru">Шины с меньшей глубиной — опасны и запрещены к эксплуатации!</span><span class="lang-uz">Chuqurligi kam bo‘lgan shinalar xavfli va ulardan foydalanish taqiqlangan!</span></div>
+    </div>
+
+    <!-- СКОРОСТЬ БЕЗ ПРИЦЕПА / TEZLIK PRISEP SIZ -->
+    <div class="section">
+      <div class="section-title"><span class="dot dot-green"></span><span class="lang-ru">Макс. скорость без прицепа</span><span class="lang-uz">Prisepsiz maksimal tezlik</span></div>
+      <table class="data">
+        <thead><tr><th class="lang-ru">Транспортное средство</th><th class="lang-uz">Transport vositasi</th><th style="text-align:right"><span class="lang-ru">Скорость</span><span class="lang-uz">Tezlik</span></th></tr></thead>
+        <tbody>
+          <tr><td><div class="vehicle-row"><span class="vicon">🚗</span><span class="lang-ru">Легковой автомобиль (M1)</span><span class="lang-uz">Yengil avtomobil (M1)</span></div></td><td class="speed-cell"><span class="speed">100</span></td></tr>
+          <tr><td><div class="vehicle-row"><span class="vicon">🚌</span><span class="lang-ru">Автобусы (M2, M3)</span><span class="lang-uz">Avtobuslar (M2, M3)</span></div></td><td class="speed-cell"><span class="speed">90</span></td></tr>
+          <tr><td><div class="vehicle-row"><span class="vicon">🚛</span><span class="lang-ru">Грузовые (N1, N2, N3)</span><span class="lang-uz">Yuk avtomobillari (N1, N2, N3)</span></div></td><td class="speed-cell"><span class="speed">90</span></td></tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:10px">
+        <div class="section-title" style="margin-bottom:8px"><span class="dot dot-red"></span><span class="lang-ru">Макс. скорость с прицепом</span><span class="lang-uz">Prisep bilan maksimal tezlik</span></div>
+        <table class="data">
+          <thead><tr><th class="lang-ru">Транспортное средство</th><th class="lang-uz">Transport vositasi</th><th style="text-align:right"><span class="lang-ru">Скорость</span><span class="lang-uz">Tezlik</span></th></tr></thead>
+          <tbody>
+            <tr><td><div class="vehicle-row"><span class="vicon">🚗</span><span class="lang-ru">Легковой с прицепом</span><span class="lang-uz">Yengil avtomobil + prisep</span></div></td><td class="speed-cell"><span class="speed" style="background:#c62828">70</span></td></tr>
+            <tr><td><div class="vehicle-row"><span class="vicon">🚛</span><span class="lang-ru">Грузовой с прицепом</span><span class="lang-uz">Yuk avtomobili + prisep</span></div></td><td class="speed-cell"><span class="speed" style="background:#c62828">70</span></td></tr>
+            <tr><td><div class="vehicle-row"><span class="vicon">🚌</span><span class="lang-ru">Автобус с прицепом</span><span class="lang-uz">Avtobus + prisep</span></div></td><td class="speed-cell"><span class="speed" style="background:#c62828">70</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- СЦЕПКА / ULOV full width -->
+    <div class="section full-width" style="border-right:none">
+      <div class="section-title"><span class="dot dot-blue"></span><span class="lang-ru">Виды сцепки прицепа: гибкая и жёсткая</span><span class="lang-uz">Prisepni ulash turlari: egiluvchan va qattiq</span></div>
+      <div class="coupling-grid">
+        <!-- ГИБКАЯ / EGILUVCHAN -->
+        <div class="coupling-card flex-type">
+          <div class="coupling-header" style="color:#ffb74d"><span>🔗</span> <span class="lang-ru">Гибкая сцепка</span><span class="lang-uz">Egiluvchan ulash</span></div>
+          <div class="coupling-desc"><span class="lang-ru">Буксировочный трос, цепь или канат</span><span class="lang-uz">Bukstirovka arqoni, zanjir yoki kanat</span></div>
+          <svg class="coupling-svg" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="22" width="58" height="22" rx="4" fill="#1565c0"/>
+            <rect x="10" y="16" width="34" height="10" rx="2" fill="#1976d2"/>
+            <circle cx="16" cy="46" r="6" fill="#263238"/><circle cx="16" cy="46" r="3" fill="#546e7a"/>
+            <circle cx="50" cy="46" r="6" fill="#263238"/><circle cx="50" cy="46" r="3" fill="#546e7a"/>
+            <path d="M62 33 Q75 26 88 33 Q101 40 114 33 Q127 26 140 33 Q153 40 158 33" stroke="#ff9800" stroke-width="2.5" fill="none" stroke-dasharray="4,2"/>
+            <text x="108" y="24" font-size="8" fill="#ff9800" text-anchor="middle" font-family="Roboto"><tspan class="lang-ru">трос/канат</tspan><tspan class="lang-uz">arqon/kanat</tspan></text>
+            <circle cx="62" cy="33" r="3" fill="#ff9800"/>
+            <circle cx="158" cy="33" r="3" fill="#ff9800"/>
+            <rect x="158" y="22" width="58" height="22" rx="4" fill="#424242"/>
+            <rect x="164" y="16" width="34" height="10" rx="2" fill="#616161"/>
+            <circle cx="170" cy="46" r="6" fill="#263238"/><circle cx="170" cy="46" r="3" fill="#546e7a"/>
+            <circle cx="204" cy="46" r="6" fill="#263238"/><circle cx="204" cy="46" r="3" fill="#546e7a"/>
+          </svg>
+          <ul class="coupling-rules">
+            <li><span class="hi lang-ru">Длина троса:</span><span class="hi lang-uz">Arqon uzunligi:</span> от 4 до 6 метров / 4-6 metr</li>
+            <li><span class="hi lang-ru">Обозначение:</span><span class="hi lang-uz">Belgilanish:</span> <span class="lang-ru">оранжевые флажки каждые 1 м</span><span class="lang-uz">har 1 metrda to'q sariq bayroqchalar</span></li>
+            <li><span class="hi lang-ru">Макс. скорость:</span><span class="hi lang-uz">Maks. tezlik:</span> <span style="color:#ff9800;font-weight:700">50 км/ч</span></li>
+            <li><span class="lang-ru">Водитель</span><span class="lang-uz">Haydovchi</span> <span class="lang-ru">в буксируемом авто — обязателен</span><span class="lang-uz">tortilayotgan mashinada — majburiy</span></li>
+            <li><span class="lang-ru">Запрещено при гололёде и плохой видимости</span><span class="lang-uz">Muz va yomon ko‘rinishda taqiqlanadi</span></li>
+            <li><span class="lang-ru">Нельзя буксировать мотоциклы без коляски</span><span class="lang-uz">Kolyaskasiz mototsikllarni tortish mumkin emas</span></li>
+          </ul>
+          <span class="coupling-badge badge-amber lang-ru">⚠ ГИБКАЯ СЦЕПКА</span>
+          <span class="coupling-badge badge-amber lang-uz">⚠ EGILUVCHAN ULOV</span>
+        </div>
+
+        <!-- ЖЁСТКАЯ / QATTIQ -->
+        <div class="coupling-card rigid-type">
+          <div class="coupling-header" style="color:#64b5f6"><span>🔩</span> <span class="lang-ru">Жёсткая сцепка</span><span class="lang-uz">Qattiq ulash</span></div>
+          <div class="coupling-desc"><span class="lang-ru">Жёсткая штанга / буксирный брус</span><span class="lang-uz">Qattiq shlang / buksir to‘sini</span></div>
+          <svg class="coupling-svg" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="22" width="58" height="22" rx="4" fill="#1565c0"/>
+            <rect x="10" y="16" width="34" height="10" rx="2" fill="#1976d2"/>
+            <circle cx="16" cy="46" r="6" fill="#263238"/><circle cx="16" cy="46" r="3" fill="#546e7a"/>
+            <circle cx="50" cy="46" r="6" fill="#263238"/><circle cx="50" cy="46" r="3" fill="#546e7a"/>
+            <rect x="62" y="30" width="96" height="6" rx="2" fill="#2196f3"/>
+            <rect x="60" y="27" width="10" height="12" rx="2" fill="#1976d2"/>
+            <rect x="150" y="27" width="10" height="12" rx="2" fill="#1976d2"/>
+            <text x="110" y="24" font-size="8" fill="#64b5f6" text-anchor="middle" font-family="Roboto"><tspan class="lang-ru">жёсткая штанга</tspan><tspan class="lang-uz">qattiq shlang</tspan></text>
+            <rect x="158" y="22" width="58" height="22" rx="4" fill="#424242"/>
+            <rect x="164" y="16" width="34" height="10" rx="2" fill="#616161"/>
+            <circle cx="170" cy="46" r="6" fill="#263238"/><circle cx="170" cy="46" r="3" fill="#546e7a"/>
+            <circle cx="204" cy="46" r="6" fill="#263238"/><circle cx="204" cy="46" r="3" fill="#546e7a"/>
+          </svg>
+          <ul class="coupling-rules">
+            <li><span class="hi lang-ru">Расстояние:</span><span class="hi lang-uz">Masofa:</span> <span class="lang-ru">не более 4 метров</span><span class="lang-uz">4 metrdan oshmasligi kerak</span></li>
+            <li><span class="hi lang-ru">Обозначение:</span><span class="hi lang-uz">Belgilanish:</span> <span class="lang-ru">оранжевые флажки обязательны</span><span class="lang-uz">to'q sariq bayroqchalar majburiy</span></li>
+            <li><span class="hi lang-ru">Макс. скорость:</span><span class="hi lang-uz">Maks. tezlik:</span> <span style="color:#64b5f6;font-weight:700">50 км/ч</span></li>
+            <li><span class="lang-ru">Водитель в буксируемом авто — не обязателен*</span><span class="lang-uz">Tortilayotgan mashinada haydovchi majburiy emas*</span></li>
+            <li><span class="lang-ru">Допускается при неисправном рулевом</span><span class="lang-uz">Boshqaruv nosoz bo‘lganda ruxsat etiladi</span></li>
+            <li><span class="lang-ru">*Если рулевое исправно — водитель нужен</span><span class="lang-uz">*Agar boshqaruv tizimi yaxshi bo‘lsa, haydovchi kerak</span></li>
+          </ul>
+          <span class="coupling-badge badge-blue lang-ru">🔩 ЖЁСТКАЯ СЦЕПКА</span>
+          <span class="coupling-badge badge-blue lang-uz">🔩 QATTIQ ULOV</span>
+        </div>
+      </div>
+
+      <!-- ОБЩИЕ ЗАПРЕТЫ / UMUMIY TAQIQLAR -->
+      <div style="background:#1a0a0a;border:1px solid #c62828;border-radius:6px;padding:8px 12px;margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
+        <div style="font-family:'Oswald',sans-serif;font-size:11px;color:#e53935;font-weight:700;white-space:nowrap;margin-top:1px">⛔ <span class="lang-ru">ЗАПРЕЩЕНО при буксировке:</span><span class="lang-uz">BUKSIROVKADA TAQIQLANADI:</span></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:#ef9a9a">
+          <span class="lang-ru">• Буксировка более одного ТС</span><span class="lang-uz">• Bir nechta transport vositasini tortish</span>
+          <span class="lang-ru">• Перевозка пассажиров в буксируемом авто</span><span class="lang-uz">• Tortilayotgan mashinada yo‘lovchi tashish</span>
+          <span class="lang-ru">• Буксировка ТС со сломанным тормозом (гибкая сцепка)</span><span class="lang-uz">• Tormozi buzilgan avtomobilni egiluvchan ulashda tortish</span>
+          <span class="lang-ru">• Буксировка мотоцикла без коляски</span><span class="lang-uz">• Kolyaskasiz mototsiklni tortish</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ВАЖНО ПОМНИТЬ / ESLAB QOLING -->
+    <div class="section full-width" style="border-right:none;border-bottom:none">
+      <div class="section-title"><span class="dot dot-amber"></span><span class="lang-ru">Важно помнить</span><span class="lang-uz">Eslab qoling</span></div>
+      <div class="reminder-grid">
+        <div class="reminder-card">
+          <div class="reminder-icon">💡</div>
+          <div class="reminder-title lang-ru">Ближний свет</div><div class="reminder-title lang-uz">Yaqin yorug‘lik</div>
+          <div class="reminder-text lang-ru">Обязателен в тоннелях и в тёмное время суток, при плохой видимости</div>
+          <div class="reminder-text lang-uz">Tunnelda va qorong‘i vaqtda, yomon ko‘rinishda majburiy</div>
+        </div>
+        <div class="reminder-card">
+          <div class="reminder-icon">🔒</div>
+          <div class="reminder-title lang-ru">Ремень безопасности</div><div class="reminder-title lang-uz">Xavfsizlik kamari</div>
+          <div class="reminder-text lang-ru">Обязателен для водителя и всех пассажиров без исключения</div>
+          <div class="reminder-text lang-uz">Haydovchi va barcha yo‘lovchilar uchun istisnosiz majburiy</div>
+        </div>
+        <div class="reminder-card">
+          <div class="reminder-icon">👶</div>
+          <div class="reminder-title lang-ru">Перевозка детей</div><div class="reminder-title lang-uz">Bolalarni tashish</div>
+          <div class="reminder-text lang-ru">До 12 лет — только в детских удерживающих устройствах, на заднем сиденье</div>
+          <div class="reminder-text lang-uz">12 yoshgacha — faqat bolalar o‘rindig‘ida, orqa o‘rindiqda</div>
+        </div>
+        <div class="reminder-card" style="border-top:2px solid #e53935">
+          <div class="reminder-icon">📵</div>
+          <div class="reminder-title lang-ru">Телефон за рулём</div><div class="reminder-title lang-uz">Telefon haydash paytida</div>
+          <div class="reminder-text lang-ru">Строго запрещён! Штраф и высокий риск аварии</div>
+          <div class="reminder-text lang-uz">Qatʼiy taqiqlangan! Jarima va yuqori xavf</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span class="lang-ru">🛡 Знай правила дорожного движения — сохрани жизнь!</span><span class="lang-uz">🛡 Yo‘l harakati qoidalarini biling — hayotni saqlang!</span></div>
+</div>
+
+<script>
+  (function() {
+    const langBtns = document.querySelectorAll('.lang-btn');
+    const ruElements = document.querySelectorAll('.lang-ru');
+    const uzElements = document.querySelectorAll('.lang-uz');
+    
+    function setLanguage(lang) {
+      if (lang === 'ru') {
+        ruElements.forEach(el => el.style.display = '');
+        uzElements.forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          if (btn.getAttribute('data-lang') === 'ru') btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+      } else if (lang === 'uz') {
+        ruElements.forEach(el => el.style.display = 'none');
+        uzElements.forEach(el => el.style.display = '');
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          if (btn.getAttribute('data-lang') === 'uz') btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+      }
+    }
+    
+    langBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        setLanguage(lang);
+      });
+    });
+    
+    // initial state: russian visible, uzbek hidden
+    setLanguage('ru');
+  })();
+</script>
+</body>
+</html>
